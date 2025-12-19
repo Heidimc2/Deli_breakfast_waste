@@ -219,12 +219,41 @@
     input.addEventListener('input', updateTotals);
   });
 
-  <script>
+<script>
   const API_URL = "https://script.google.com/macros/s/AKfycbzV7xLJnZSvLSHp-vgB2UrRz7BLFXgrOs4fpNA0Dq9FeFWLAXpr1SpW0YIZpRqymj47KA/exec";
 
+  // Set date
+  const dateEl = document.getElementById('date');
+  const today = new Date();
+  const options = { weekday: 'short', day: 'numeric', month: 'short' };
+  dateEl.textContent = today.toLocaleDateString('en-GB', options);
+
+  // Totals
+  const rows = document.querySelectorAll('.row[data-price]');
+  const grandTotalEl = document.getElementById('grandTotal');
+
+  function updateTotals() {
+    let grandTotal = 0;
+
+    rows.forEach(row => {
+      const price = Number(row.dataset.price);
+      const qty = Number(row.querySelector('.qty').value) || 0;
+      const itemTotal = price * qty;
+
+      row.querySelector('.item-total').textContent = '£' + itemTotal.toFixed(2);
+      grandTotal += itemTotal;
+    });
+
+    grandTotalEl.textContent = grandTotal.toFixed(2);
+  }
+
+  document.querySelectorAll('.qty').forEach(input => {
+    input.addEventListener('input', updateTotals);
+  });
+
+  // Submit to Google Sheets
   function submitWaste() {
     const date = document.getElementById('date').textContent;
-    const rows = document.querySelectorAll('.row[data-price]');
     const items = [];
 
     rows.forEach(row => {
@@ -247,24 +276,23 @@
 
     fetch(API_URL, {
       method: "POST",
-      body: JSON.stringify({
-        date: date,
-        items: items
-      })
+      body: JSON.stringify({ date, items })
     })
+    .then(r => r.text())
     .then(() => {
       alert("Waste submitted successfully");
+
+      // Reset inputs + totals
       document.querySelectorAll('.qty').forEach(i => i.value = 0);
-      document.getElementById('grandTotal').textContent = "0.00";
       document.querySelectorAll('.item-total').forEach(t => t.textContent = "£0.00");
+      grandTotalEl.textContent = "0.00";
     })
     .catch(() => {
       alert("Error submitting data");
     });
   }
-
-
 </script>
+
 
 </body>
 </html>
