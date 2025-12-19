@@ -4,16 +4,60 @@
   <meta charset="UTF-8">
   <title>Breakfast Waste Log</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 180px;
+      background: #2c2c2c;
+      color: white;
       padding: 20px;
-      max-width: 600px;
+    }
+
+    .sidebar h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover {
+      background: #444;
+    }
+
+    .sidebar a.active {
+      background: #007bff;
+    }
+
+    /* Main content */
+    .content {
+      flex: 1;
+      padding: 20px;
+      max-width: 700px;
       margin: auto;
     }
+
     h2 {
       text-align: center;
     }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 100px 80px;
@@ -21,112 +65,136 @@
       align-items: center;
       margin-bottom: 10px;
     }
+
     input {
       width: 100%;
       padding: 8px;
       font-size: 16px;
       text-align: center;
     }
+
     .price {
       text-align: right;
     }
+
     .total {
       font-weight: bold;
       font-size: 20px;
       text-align: right;
       margin-top: 20px;
     }
+
     button {
       width: 100%;
       padding: 15px;
       font-size: 18px;
       margin-top: 20px;
     }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 100px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<h2>Breakfast Waste Log</h2>
-  <p id="date" style="text-align:center; font-weight:bold;"></p>
+<div class="container">
 
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <h3>Deli</h3>
+    <a href="index.html" class="active">Waste Log</a>
+    <a href="reports.html">Reports</a>
+  </nav>
 
-<div class="row">
-  <strong>Item</strong>
-  <strong>Qty</strong>
-  <strong class="price">£</strong>
+  <!-- Main content -->
+  <main class="content">
+
+    <h2>Breakfast Waste Log</h2>
+    <p id="date" style="text-align:center; font-weight:bold;"></p>
+
+    <div class="row">
+      <strong>Item</strong>
+      <strong>Qty</strong>
+      <strong class="price">£</strong>
+    </div>
+
+    <div class="row" data-price="0.99">
+      <span>Sausages</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="0.99">
+      <span>Bacon</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="0.99">
+      <span>Potato Bread</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="0.99">
+      <span>Hash Browns</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="1.50">
+      <span>Jambons</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="4.95">
+      <span>5 piece item (bap/bagel)</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="2.09">
+      <span>Scotch Eggs</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="1.00">
+      <span>Sausage Rolls (large)</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <div class="row" data-price="0.50">
+      <span>Sausage Rolls (small)</span>
+      <input type="number" min="0" value="0" class="qty">
+      <span class="price item-total">£0.00</span>
+    </div>
+
+    <hr>
+
+    <div class="total">
+      Total Waste: £<span id="grandTotal">0.00</span>
+    </div>
+
+    <button onclick="submitWaste()">Submit</button>
+
+  </main>
 </div>
-
-<div class="row" data-price="0.99">
-  <span>Sausages</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-<div class="row" data-price="0.99">
-  <span>Bacon</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-<div class="row" data-price="0.99">
-  <span>Potato Bread</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-<div class="row" data-price="0.99">
-  <span>Hash Browns</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-<div class="row" data-price="1.50">
-  <span>Jambons</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-  <div class="row" data-price="4.95">
-  <span>5 piece item e.g bap or bagel</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-  <div class="row" data-price="2.09">
-  <span>Scotch Eggs</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-  
-  <div class="row" data-price="1.00">
-  <span>Sausage Rolls (large)</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-
-  <div class="row" data-price="0.50">
-  <span>Sausage Rolls (small)</span>
-  <input type="number" min="0" value="0" class="qty">
-  <span class="price item-total">£0.00</span>
-</div>
-  
-  
-<hr>
-
-<div class="total">
-  Total Waste: £<span id="grandTotal">0.00</span>
-</div>
-
-<button onclick="submitWaste()">Submit</button>
 
 <script>
   const dateEl = document.getElementById('date');
+  const today = new Date();
+  const options = { weekday: 'short', day: 'numeric', month: 'short' };
+  dateEl.textContent = today.toLocaleDateString('en-GB', options);
 
-const today = new Date();
-const options = { weekday: 'short', day: 'numeric', month: 'short' };
-dateEl.textContent = today.toLocaleDateString('en-GB', options);
-
-  
   const rows = document.querySelectorAll('.row[data-price]');
   const grandTotalEl = document.getElementById('grandTotal');
 
@@ -153,7 +221,6 @@ dateEl.textContent = today.toLocaleDateString('en-GB', options);
 
   function submitWaste() {
     alert("Submitted. Total waste: £" + grandTotalEl.textContent);
-    // Next step: send to Google Sheets
   }
 </script>
 
