@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breakfast Waste Log</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 100px 80px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .price {
+      text-align: right;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 20px;
+      text-align: right;
+      margin-top: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Breakfast Waste Log</h2>
+
+<div class="row">
+  <strong>Item</strong>
+  <strong>Qty</strong>
+  <strong class="price">£</strong>
+</div>
+
+<div class="row" data-price="0.60">
+  <span>Sausages</span>
+  <input type="number" min="0" value="0" class="qty">
+  <span class="price item-total">£0.00</span>
+</div>
+
+<div class="row" data-price="0.80">
+  <span>Bacon</span>
+  <input type="number" min="0" value="0" class="qty">
+  <span class="price item-total">£0.00</span>
+</div>
+
+<div class="row" data-price="0.30">
+  <span>Eggs</span>
+  <input type="number" min="0" value="0" class="qty">
+  <span class="price item-total">£0.00</span>
+</div>
+
+<div class="row" data-price="0.50">
+  <span>Hash Browns</span>
+  <input type="number" min="0" value="0" class="qty">
+  <span class="price item-total">£0.00</span>
+</div>
+
+<div class="row" data-price="0.70">
+  <span>Pancakes</span>
+  <input type="number" min="0" value="0" class="qty">
+  <span class="price item-total">£0.00</span>
+</div>
+
+<hr>
+
+<div class="total">
+  Total Waste: £<span id="grandTotal">0.00</span>
+</div>
+
+<button onclick="submitWaste()">Submit</button>
+
+<script>
+  const rows = document.querySelectorAll('.row[data-price]');
+  const grandTotalEl = document.getElementById('grandTotal');
+
+  function updateTotals() {
+    let grandTotal = 0;
+
+    rows.forEach(row => {
+      const price = Number(row.dataset.price);
+      const qty = Number(row.querySelector('.qty').value) || 0;
+      const itemTotal = price * qty;
+
+      row.querySelector('.item-total').textContent =
+        '£' + itemTotal.toFixed(2);
+
+      grandTotal += itemTotal;
+    });
+
+    grandTotalEl.textContent = grandTotal.toFixed(2);
+  }
+
+  document.querySelectorAll('.qty').forEach(input => {
+    input.addEventListener('input', updateTotals);
+  });
+
+  function submitWaste() {
+    alert("Submitted. Total waste: £" + grandTotalEl.textContent);
+    // Next step: send to Google Sheets
+  }
+</script>
+
+</body>
+</html>
