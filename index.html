@@ -219,9 +219,51 @@
     input.addEventListener('input', updateTotals);
   });
 
+  <script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzV7xLJnZSvLSHp-vgB2UrRz7BLFXgrOs4fpNA0Dq9FeFWLAXpr1SpW0YIZpRqymj47KA/exec";
+
   function submitWaste() {
-    alert("Submitted. Total waste: £" + grandTotalEl.textContent);
+    const date = document.getElementById('date').textContent;
+    const rows = document.querySelectorAll('.row[data-price]');
+    const items = [];
+
+    rows.forEach(row => {
+      const qty = Number(row.querySelector('.qty').value) || 0;
+      if (qty > 0) {
+        const price = Number(row.dataset.price);
+        items.push({
+          name: row.querySelector('span').textContent,
+          qty: qty,
+          price: price,
+          total: qty * price
+        });
+      }
+    });
+
+    if (items.length === 0) {
+      alert("Nothing to submit");
+      return;
+    }
+
+    fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        date: date,
+        items: items
+      })
+    })
+    .then(() => {
+      alert("Waste submitted successfully");
+      document.querySelectorAll('.qty').forEach(i => i.value = 0);
+      document.getElementById('grandTotal').textContent = "0.00";
+      document.querySelectorAll('.item-total').forEach(t => t.textContent = "£0.00");
+    })
+    .catch(() => {
+      alert("Error submitting data");
+    });
   }
+
+
 </script>
 
 </body>
