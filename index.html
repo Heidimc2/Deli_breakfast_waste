@@ -47,6 +47,8 @@
 <body>
 
 <h2>Breakfast Waste Log</h2>
+  <p id="date" style="text-align:center; font-weight:bold;"></p>
+
 
 <div class="row">
   <strong>Item</strong>
@@ -118,6 +120,13 @@
 <button onclick="submitWaste()">Submit</button>
 
 <script>
+  const dateEl = document.getElementById('date');
+
+const today = new Date();
+const options = { weekday: 'short', day: 'numeric', month: 'short' };
+dateEl.textContent = today.toLocaleDateString('en-GB', options);
+
+  
   const rows = document.querySelectorAll('.row[data-price]');
   const grandTotalEl = document.getElementById('grandTotal');
 
