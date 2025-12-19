@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breakfast Waste Reports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 180px;
+      background: #2c2c2c;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    }
+
+    .sidebar a:hover {
+      background: #444;
+    }
+
+    .sidebar a.active {
+      background: #007bff;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 100px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <h3>Deli</h3>
+    <a href="index.html">Waste Log</a>
+    <a href="reports.html" class="active">Reports</a>
+  </nav>
+
+  <!-- Main content -->
+  <main class="content">
+
+    <h2>Breakfast Waste Reports</h2>
+
+    <div class="card">
+      <h3>Today</h3>
+      <p>Total Waste: £0.00</p>
+    </div>
+
+    <div class="card">
+      <h3>This Week</h3>
+      <p>Total Waste: £0.00</p>
+    </div>
+
+    <div class="card">
+      <h3>Top Wasted Items</h3>
+      <ul>
+        <li>Sausages – £0.00</li>
+        <li>Bacon – £0.00</li>
+        <li>Hash Browns – £0.00</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
 
