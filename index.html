@@ -91,6 +91,7 @@
       margin-top: 20px;
     }
 
+    /* Mobile */
     @media (max-width: 600px) {
       .sidebar {
         width: 100px;
@@ -106,12 +107,12 @@
 
   <!-- Sidebar -->
   <nav class="sidebar">
-    <h3>Eurospar Armagh</h3>
+    <h3>Deli</h3>
     <a href="index.html" class="active">Waste Log</a>
     <a href="reports.html">Reports</a>
   </nav>
 
-  <!-- Content -->
+  <!-- Main content -->
   <main class="content">
 
     <h2>Breakfast Waste Log</h2>
@@ -125,55 +126,55 @@
 
     <div class="row" data-price="0.99">
       <span>Sausages</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="0.99">
       <span>Bacon</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="0.99">
       <span>Potato Bread</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="0.99">
       <span>Hash Browns</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="1.50">
       <span>Jambons</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="4.95">
       <span>5 piece item (bap/bagel)</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="2.09">
       <span>Scotch Eggs</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="1.00">
       <span>Sausage Rolls (large)</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
     <div class="row" data-price="0.50">
       <span>Sausage Rolls (small)</span>
-      <input type="number" min="0" value="0" class="qty" oninput="updateTotals()">
+      <input type="number" min="0" value="0" class="qty">
       <span class="price item-total">£0.00</span>
     </div>
 
@@ -189,9 +190,6 @@
 </div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbzV7xLJnZSvLSHp-vgB2UrRz7BLFXgrOs4fpNA0Dq9FeFWLAXpr1SpW0YIZpRqymj47KA/exec";
-
-  // Date
   const dateEl = document.getElementById('date');
   const today = new Date();
   const options = { weekday: 'short', day: 'numeric', month: 'short' };
@@ -208,47 +206,21 @@
       const qty = Number(row.querySelector('.qty').value) || 0;
       const itemTotal = price * qty;
 
-      row.querySelector('.item-total').textContent = "£" + itemTotal.toFixed(2);
+      row.querySelector('.item-total').textContent =
+        '£' + itemTotal.toFixed(2);
+
       grandTotal += itemTotal;
     });
 
     grandTotalEl.textContent = grandTotal.toFixed(2);
   }
 
+  document.querySelectorAll('.qty').forEach(input => {
+    input.addEventListener('input', updateTotals);
+  });
+
   function submitWaste() {
-    const date = dateEl.textContent;
-    const items = [];
-
-    rows.forEach(row => {
-      const qty = Number(row.querySelector('.qty').value) || 0;
-      if (qty > 0) {
-        const price = Number(row.dataset.price);
-        items.push({
-          name: row.querySelector('span').textContent,
-          qty,
-          price,
-          total: qty * price
-        });
-      }
-    });
-
-    if (items.length === 0) {
-      alert("Nothing to submit");
-      return;
-    }
-
-    fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({ date, items })
-    })
-    .then(() => {
-      alert("Waste submitted successfully");
-
-      document.querySelectorAll('.qty').forEach(i => i.value = 0);
-      document.querySelectorAll('.item-total').forEach(t => t.textContent = "£0.00");
-      grandTotalEl.textContent = "0.00";
-    })
-    .catch(() => alert("Error submitting data"));
+    alert("Submitted. Total waste: £" + grandTotalEl.textContent);
   }
 </script>
 
