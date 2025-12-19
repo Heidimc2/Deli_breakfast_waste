@@ -110,6 +110,36 @@
   </main>
 </div>
 
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzV7xLJnZSvLSHp-vgB2UrRz7BLFXgrOs4fpNA0Dq9FeFWLAXpr1SpW0YIZpRqymj47KA/exec";
+
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("todayTotal").textContent =
+        "£" + data.todayTotal.toFixed(2);
+
+      const list = document.getElementById("topItems");
+      list.innerHTML = "";
+
+      Object.entries(data.items)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .forEach(([item, total]) => {
+          const li = document.createElement("li");
+          li.textContent = `${item} – £${total.toFixed(2)}`;
+          list.appendChild(li);
+        });
+    })
+    .catch(() => {
+      alert("Failed to load report data");
+    });
+</script>
+
+  
+
+  
+
 </body>
 </html>
 
