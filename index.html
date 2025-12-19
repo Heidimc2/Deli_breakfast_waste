@@ -248,7 +248,10 @@
   }
 
   document.querySelectorAll('.qty').forEach(input => {
-    input.addEventListener('input', updateTotals);
+  input.addEventListener('input', updateTotals);
+  input.addEventListener('change', updateTotals);
+
+
   });
 
   // Submit to Google Sheets
